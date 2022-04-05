@@ -15,33 +15,28 @@ class ViewController: UIViewController {
     @IBOutlet private weak var firstNumberLabel: UILabel!
     @IBOutlet private weak var secondNumberLabel: UILabel!
     @IBOutlet private weak var resultLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         firstReverseSwitch.isOn = false
         secondReverseSwitch.isOn = false
     }
+
     @IBAction private func calculate(_ sender: Any) {
-        var firstNumber: Int?
-        var secondNumber: Int?
-        if let firstInput = Int(firstInputTextField.text ?? "") {
-            let firstSign = firstReverseSwitch.isOn ? -1 : 1
-            firstNumber = firstInput * firstSign
-            firstNumberLabel.text = String(firstNumber!)
-        } else {
+        guard let firstInput = Int(firstInputTextField.text ?? ""),
+              let secondInput = Int(secondInputTextField.text ?? "") else {
+
             firstNumberLabel.text = firstInputTextField.text
-        }
-        if let secondInput = Int(secondInputTextField.text ?? "") {
-            let secondSign = secondReverseSwitch.isOn ? -1 : 1
-            secondNumber = secondInput * secondSign
-            secondNumberLabel.text = String(secondNumber!)
-        } else {
             secondNumberLabel.text = secondInputTextField.text
-        }
-        guard let firstNumber = firstNumber, let secondNumber = secondNumber
-        else {
             resultLabel.text = "数字を入力してください"
             return
         }
+
+        let firstNumber = firstInput * (firstReverseSwitch.isOn ? -1 : 1)
+        let secondNumber = secondInput * (secondReverseSwitch.isOn ? -1 : 1)
+
+        firstNumberLabel.text = String(firstNumber)
+        secondNumberLabel.text = String(secondNumber)
         resultLabel.text = String(firstNumber + secondNumber)
     }
 }
